@@ -1,8 +1,10 @@
+import { SignIn } from "@/components/SignIn";
+
 export default function Home() {
   return (
     <div>
       <main>
-        <p>hola</p>
+        <SignIn/>
       </main>
     </div>
   );
