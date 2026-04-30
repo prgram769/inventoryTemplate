@@ -1,6 +1,6 @@
-function Input() {
+function Input({className, type, ...props}: React.ComponentProps<"input">) {
   return (
-    <input></input>
+    <input type={type} className={className} {...props}/>
   )
 }
 
