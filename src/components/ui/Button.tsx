@@ -1,6 +1,6 @@
 function Button({...props}: React.ComponentProps<"button">) {
   return (
-    <button/>
+    <button {...props}/>
   )
 }
 
