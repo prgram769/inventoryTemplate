@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 function SignUp() {
 
   const styles = {
-    divContainer: `${ubuntu.className} bg-amber-100 w-85 h-70 md:w-130 md:h-120 flex flex-col justify-center items-center rounded-3xl border-4 border-red-300 relative`,
+    divContainer: `${ubuntu.className} bg-amber-100 w-[95vw] h-[60vh] md:w-130 md:h-120 flex flex-col justify-center items-center rounded-3xl border-4 border-red-300 relative`,
     title: "text-2xl md:text-3xl font-bold m-3 text-center",
     span: "flex justify-center font-bold",
     internalDivs: "flex justify-center items-center mr-2 ml-2 md:m-0",
@@ -20,8 +20,15 @@ function SignUp() {
     <div>
       <h1 className={styles.title}>Inventory Login</h1>
       <div className={styles.divContainer}>
-        {/* <p className="w"></p> */}
+        <p className="w-w"></p>
         <form>
+          <span className={styles.span}>
+            <Label htmlFor="nameInput" children="Name"/>
+          </span>
+          <div className={styles.internalDivs}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="59px" viewBox="0 -960 960 960" width="48px" fill="#222"><path d="M480-242q-67 0-129 23.5T235-149v9h490v-9q-54-46-116-69.5T480-242Zm139.5-35.5Q685-253 740-211v-609H220v609q55-42 120.5-66.5T480-302q74 0 139.5 24.5ZM427-464q-23-23-23-55t23-55q23-23 55-23t55 23q23 23 23 55t-23 55q-23 23-55 23t-55-23ZM220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h520q24 0 42 18t18 42v680q0 24-18 42t-42 18H220Zm360-341q40-40 40-98t-40-98q-40-40-98-40t-98 40q-40 40-40 98t40 98q40 40 98 40t98-40Zm-100-98Z"/></svg>
+            <Input id="nameInput" type="text" className={styles.input} placeholder="Insert your name"/>
+          </div>
           <span className={styles.span}>
             <Label htmlFor="usernameInput" children="Username" />
           </span>
@@ -37,7 +44,7 @@ function SignUp() {
             <Input id="passwordInput" type="password" className={styles.input} placeholder="Insert a password:" />
           </div>
           <div className={styles.internalDivs}>
-            <Button className={styles.button} type="button" children="Sign In"/>
+            <Button className={styles.button} type="button" children="Sign Up"/>
           </div>
         </form>
       </div>
