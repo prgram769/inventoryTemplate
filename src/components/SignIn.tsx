@@ -1,9 +1,9 @@
 "use client"
 
-import { Input } from "@/components/ui/Input";
-import { ubuntu } from "@/components/fonts";
-import { Label } from "@/components/ui/Label";
-import { Button } from "@/components/ui/Button";
+import { Input } from "./ui/Input";
+import { ubuntu } from "./fonts";
+import { Label } from "./ui/Label";
+import { Button } from "./ui/Button";
 
 function SignIn() {
 
