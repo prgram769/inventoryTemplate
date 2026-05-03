@@ -20,7 +20,6 @@ function SignIn() {
     <div>
       <h1 className={styles.title}>Inventory Login</h1>
       <div className={styles.divContainer}>
-        {/* <p className="w"></p> */}
         <form>
           <span className={styles.span}>
             <Label htmlFor="usernameInput" children="Username" />
