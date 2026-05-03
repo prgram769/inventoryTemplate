@@ -6,7 +6,22 @@ import { Label } from "./ui/Label";
 import { Button } from "./ui/Button";
 import { actions } from "@/actions";
 import { useActionState } from "react";
-import {type FormState} from "@/validations/auth"
+
+export type FormState = {
+  fields: {
+    name: string,
+    username: string,
+    password: string
+  },
+  success: boolean,
+  message: string,
+  error: {
+    name?: string[],
+    username?: string[],
+    password?: string[]
+  } | null
+}
+
 const INITIAL_STATE: FormState = {
   fields: {
     name: "",
@@ -14,7 +29,8 @@ const INITIAL_STATE: FormState = {
     password: ""
   },
   success: false,
-  error: null,
+  message: "",
+  error: null
 }
 
 function SignUp() {

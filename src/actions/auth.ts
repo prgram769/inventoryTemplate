@@ -2,10 +2,9 @@
 
 import { Form } from "@/validations/auth";
 import z from "zod";
+import { type FormState } from "@/components/SingUp";
 
-export async function registerUserAction(prevState: { fields: { name: string, username: string, password: string } }, formData: FormData) {
-  console.log("datos de formulario recibido");
-
+export async function registerUserAction(prevState: FormState, formData: FormData): Promise<FormState> {
   const fields = {
     name: formData.get("name") as string,
     username: formData.get("username") as string,
@@ -17,10 +16,8 @@ export async function registerUserAction(prevState: { fields: { name: string, us
   if (!validatedFields.success) {
     const flattenedErrors = z.flattenError(validatedFields.error);
 
-    console.log(flattenedErrors.fieldErrors);
-
-    return { success: false, message: "Validation error", zodErrors: flattenedErrors.fieldErrors, data: fields }
+    return { success: false, message: "Validation error", error: flattenedErrors.fieldErrors, fields}
   }
 
-  console.log("Validation successful");
+  return {success: true, message: "Validation successful", error: null, fields}
 }
