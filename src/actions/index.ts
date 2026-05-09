@@ -1,9 +1,9 @@
 import { signInUserAction, signUpUserAction } from "./auth";
-import { test } from "./sign";
+import { validateSuccessful } from "./sign";
 
 export const actions = {
   auth: {
-    test: test,
+    test: validateSuccessful,
     registerUserAction: signUpUserAction,
     loginUserAction: signInUserAction,
   }
