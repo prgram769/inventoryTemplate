@@ -10,20 +10,20 @@ import { FormError } from "./ui/FormError";
 
 export type FormStateSignIn = {
   fields: {
-    username: string,
+    email: string,
     password: string
   },
   success: boolean,
   message: string,
   error: {
-    username?: string[],
+    email?: string[],
     password?: string[]
   } | null
 }
 
 const INITIAL_STATE: FormStateSignIn = {
   fields: {
-    username: "",
+    email: "",
     password: ""
   },
   success: false,
@@ -49,13 +49,13 @@ function SignIn() {
       <div className={styles.divContainer}>
         <form action={formAction}>
           <span className={styles.span}>
-            <Label htmlFor="usernameInput" children="Username" />
+            <Label htmlFor="emailInput" children="Email" />
           </span>
           <div className={styles.internalDivs}>
             <svg xmlns="http://www.w3.org/2000/svg" height="59px" viewBox="0 -960 960 960" width="48px" fill="#222"><path d="M372-523q-42-42-42-108t42-108q42-42 108-42t108 42q42 42 42 108t-42 108q-42 42-108 42t-108-42ZM160-160v-94q0-38 19-65t49-41q67-30 128.5-45T480-420q62 0 123 15.5T731-360q31 14 50 41t19 65v94H160Zm60-60h520v-34q0-16-9.5-30.5T707-306q-64-31-117-42.5T480-360q-57 0-111 11.5T252-306q-14 7-23 21.5t-9 30.5v34Zm324.5-346.5Q570-592 570-631t-25.5-64.5Q519-721 480-721t-64.5 25.5Q390-670 390-631t25.5 64.5Q441-541 480-541t64.5-25.5ZM480-631Zm0 411Z" /></svg>
-            <Input id="usernameInput" name="username" defaultValue={formState.fields?.username ?? ''} type="text" className={styles.input} placeholder="Insert a username:" />
+            <Input id="emailInput" name="email" defaultValue={formState.fields?.email ?? ''} type="text" className={styles.input} placeholder="Insert a email:" />
           </div>
-          <FormError error={formState.error?.username}/>
+          <FormError error={formState.error?.email}/>
           <span className={styles.span}>
             <Label htmlFor="passwordInput" children="Password" />
           </span>

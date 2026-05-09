@@ -9,6 +9,7 @@ export async function signUpUserAction(prevState: FormStateSignUp, formData: For
   const fields = {
     name: formData.get("name") as string,
     username: formData.get("username") as string,
+    email: formData.get("email") as string,
     password: formData.get("password") as string,
   }
 
@@ -25,7 +26,7 @@ export async function signUpUserAction(prevState: FormStateSignUp, formData: For
 
 export async function signInUserAction(prevState: FormStateSignIn, formData: FormData): Promise<FormStateSignIn> {
   const fields = {
-    username: formData.get("username") as string,
+    email: formData.get("email") as string,
     password: formData.get("password") as string,
   }
 

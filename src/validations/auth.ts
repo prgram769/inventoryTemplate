@@ -10,6 +10,7 @@ export const SignUpForm = z.object({
   .string()
   .min(3, "The username must be at least 3 characters")
   .max(20, "The username must be less than 20 characters"),
+  email: z.email("The email must be a valid email address"),
   password: z
   .string()
   .min(6, "The password must be at least 6 characters")
@@ -19,10 +20,11 @@ export const SignUpForm = z.object({
 /* Is possible in the future I will delete the following */
 
 export const SignInForm = z.object({
-  username: z
-  .string()
-  .min(3, "The username must be at least 3 characters")
-  .max(20, "The username must be less than 20 characters"),
+  // username: z
+  // .string()
+  // .min(3, "The username must be at least 3 characters")
+  // .max(20, "The username must be less than 20 characters"),
+  email: z.email("The email must be a valid email address"),
   password: z
   .string()
   .min(6, "The password must be at least 6 characters")
