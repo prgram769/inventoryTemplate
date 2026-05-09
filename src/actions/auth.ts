@@ -2,7 +2,7 @@
 
 import { SignInForm, SignUpForm } from "@/validations/auth";
 import z from "zod";
-import { type FormStateSignUp } from "@/components/SingUp";
+import { type FormStateSignUp } from "@/components/SignUp";
 import { type FormStateSignIn } from "@/components/SignIn";
 
 export async function signUpUserAction(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {

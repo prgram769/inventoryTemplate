@@ -15,7 +15,7 @@ export default function Home() {
         <Link className={styles.links} href={"/signin"}>
           Sign In
         </Link>
-        <Link className={styles.links} href={"/singup"}>
+        <Link className={styles.links} href={"/signup"}>
           Sign Up
         </Link>
       </div>

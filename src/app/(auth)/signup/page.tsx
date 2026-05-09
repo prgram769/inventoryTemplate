@@ -1,4 +1,4 @@
-import { SignUp } from "../../../components/SingUp";
+import { SignUp } from "../../../components/SignUp";
 
 import type { Metadata } from "next";
 

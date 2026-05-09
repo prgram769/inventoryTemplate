@@ -40,7 +40,7 @@ export const INITIAL_STATE: FormStateSignUp = {
 }
 
 function SignUp() {
-  const [formState, formAction] = useActionState(actions.auth.registerUserAction, INITIAL_STATE);
+  const [formState, formAction] = useActionState(actions.auth.signUp, INITIAL_STATE);
 
   const styles = {
     divContainer: `${ubuntu.className} px-4 py-4 bg-amber-100 w-fit h-fit md:w-fit md:h-fit flex flex-col justify-center items-center rounded-3xl border-4 border-red-300 relative`,
