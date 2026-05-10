@@ -2,7 +2,6 @@ import { type FormStateSignUp, INITIAL_STATE } from "@/components/SignUp";
 import { signInUserAction, signUpUserAction } from "./auth";
 import { createClient } from "@supabase/supabase-js";
 import { type FormStateSignIn } from "@/components/SignIn";
-import { sign } from "crypto";
 
 const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
@@ -22,13 +21,17 @@ async function signUpNewUser(email: string, password: string, username: string, 
       }
     }
   })
+
+  return { data, error };
 }
 
 async function signInUser(email: string, password: string) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
-    password: password
+    password: password,
   })
+
+  return { data, error };
 }
 
 export async function validateSignUp(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {
@@ -46,6 +49,8 @@ export async function validateSignIn(prevState: FormStateSignIn, formData: FormD
 
   if (results.success) {
     signInUser(results.fields.email, results.fields.password);
+
+    
   }
 
   return results;

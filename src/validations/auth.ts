@@ -5,7 +5,7 @@ export const SignUpForm = z.object({
   .string()
   .min(1, "The name must be at least 1 characters")
   .max(100, "The name must be less than 100 characters")
-  .regex(/^[a-z]+$/, "The name can't contain numbers."),
+  .regex(/^[a-zA-Z]+$/, "The name can't contain numbers."),
   username: z
   .string()
   .min(3, "The username must be at least 3 characters")
