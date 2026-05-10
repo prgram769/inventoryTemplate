@@ -32,11 +32,8 @@ const INITIAL_STATE: FormStateSignIn = {
 }
 
 function SignIn() {
-  const handleSubmit = (fields: typeof formState.fields) => {
-    console.log("datos: ", fields);
-  }
 
-  const [formState, formAction] = useActionState(actions.auth.loginUserAction, INITIAL_STATE);
+  const [formState, formAction] = useActionState(actions.auth.signIn, INITIAL_STATE);
 
   const styles = {
     divContainer: `${ubuntu.className} bg-amber-100 px-4 py-4 w-fit h-fit md:w-fit md:h-fit flex flex-col justify-center items-center rounded-3xl border-4 border-red-300 relative`,
@@ -73,8 +70,6 @@ function SignIn() {
           </div>
         </form>
       </div>
-
-      <Button className={styles.button} type="button" onClick={() => handleSubmit(formState.fields)} />
     </>
   )
 }

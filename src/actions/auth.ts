@@ -8,7 +8,6 @@ import { type FormStateSignIn } from "@/components/SignIn";
 export async function signUpUserAction(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {
   const fields = {
     name: formData.get("name") as string,
-    username: formData.get("username") as string,
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   }
