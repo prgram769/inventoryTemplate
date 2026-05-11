@@ -21,7 +21,7 @@ async function signUpNewUser(email: string, password: string, name: string, role
     }
   })
 
-  // return { data, error };
+  return { data, error };
 }
 
 async function signInUser(email: string, password: string) {
@@ -30,7 +30,7 @@ async function signInUser(email: string, password: string) {
     password: password,
   })
 
-  // return { data, error };
+  return { data, error };
 }
 
 export async function validateSignUp(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {
