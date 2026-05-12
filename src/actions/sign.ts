@@ -9,7 +9,15 @@ const NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PU
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 
-async function signUpNewUser(email: string, password: string, name: string, role: string) {
+function redirectToDashboard(error: any) {
+  if (error) {
+    return;
+  }
+
+  window.location.href = "/dashboard";
+}
+
+async function signUpNewUser(email: string, password: string, name: string, role: string, callbackFunction: (error: any) => void) {
   const { data, error } = await supabase.auth.signUp({
     email: email,
     password: password,
@@ -21,14 +29,18 @@ async function signUpNewUser(email: string, password: string, name: string, role
     }
   })
 
+  callbackFunction(error);
+
   return { data, error };
 }
 
-async function signInUser(email: string, password: string) {
+async function signInUser(email: string, password: string, callbackFunction: (error: any) => void) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
   })
+
+  callbackFunction(error);
 
   return { data, error };
 }
@@ -37,7 +49,7 @@ export async function validateSignUp(prevState: FormStateSignUp, formData: FormD
   const results = await signUpUserAction(prevState, formData);
 
   if (results.success) {
-    signUpNewUser(results.fields.email, results.fields.password, results.fields.name, "user");
+    signUpNewUser(results.fields.email, results.fields.password, results.fields.name, "user", redirectToDashboard);
   }
 
   return results;
@@ -47,7 +59,7 @@ export async function validateSignIn(prevState: FormStateSignIn, formData: FormD
   const results = await signInUserAction(prevState, formData);
 
   if (results.success) {
-    signInUser(results.fields.email, results.fields.password);
+    signInUser(results.fields.email, results.fields.password, redirectToDashboard);
   }
 
   return results;
