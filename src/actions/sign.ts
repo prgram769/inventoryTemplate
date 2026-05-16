@@ -2,25 +2,16 @@
 
 import { type FormStateSignUp } from "@/components/SignUp";
 import { signUpUserAction } from "./auth";
+import { signInUserAction } from "./auth";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
-// import { signInUserAction, signUpUserAction } from "./auth";
-// import { createClient } from "@supabase/supabase-js";
-// import { type FormStateSignIn } from "@/components/SignIn";
+import { redirect } from "next/navigation";
+import { type FormStateSignIn } from "@/components/SignIn";
 
-// const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// const NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
-// const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
-
-// async function redirectToDashboard(error: any) {
-//   if (error) {
-//     return;
-//   }
-
-//   window.location.href = "/userDashboard";
-// }
-async function validateSignUp(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {
+export async function validateSignUp(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {
   const validation = await signUpUserAction(prevState, formData);
 
   if (!validation.success) {
@@ -29,59 +20,79 @@ async function validateSignUp(prevState: FormStateSignUp, formData: FormData): P
 
   const { email, password, name, role } = validation.fields;
 
-  const allowedRoles = [ "user", "admin" ];
+  const allowedRoles = ["user", "admin"];
 
   if (!allowedRoles.includes(role)) {
     return { ...validation, success: false, message: "Invalid role", error: { role: ["Role isn't valid"] } };
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { cookies: { get: (name) => cookieStore.get(name)?.value } } );
+  const cookieStore = await cookies();
+  const supabase = createServerClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
+    cookies: {
+      get: (name) => cookieStore.get(name)?.value
+    }
+  });
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name: name,
+        role: role,
+      }
+    }
+  })
+
+  if (error) {
+    return { ...validation, success: false, message: "Error signing up user", error: { email: [error.message] } };
+  }
+
+  if (role == "user") {
+    await redirect("/userDashboard");
+  } else if (role == "admin") {
+    await redirect("/adminDashboard");
+  }
+
+  return validation;
 }
-// async function signUpNewUser(email: string, password: string, name: string, role: string, callbackFunction: (error: any) => void) {
-//   const { data, error } = await supabase.auth.signUp({
-//     email: email,
-//     password: password,
-//     options: {
-//       data: {
-//         name: name,
-//         role: role
-//       }
-//     }
-//   })
 
-//   callbackFunction(error);
+export async function validateSignIn(prevState: FormStateSignIn, formData: FormData): Promise<FormStateSignIn> {
+  const validation = await signInUserAction(prevState, formData);
 
-//   return { data, error };
-// }
+  const { email, password } = validation.fields;
 
-// async function signInUser(email: string, password: string, callbackFunction: (error: any) => void) {
-//   const { data, error } = await supabase.auth.signInWithPassword({
-//     email: email,
-//     password: password,
-//   })
+  const supabase = createServerClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
+    cookies: {
+      get: async (name) => {
+        const cookieStore = await cookies();
+        await cookieStore.get(name)?.value
+      },
+      set: async (name, value, options) => {
+        const cookieStore = await cookies();
+        await cookieStore.set(name, value, options);
+      },
+      remove: async (name, options) => {
+        const cookieStore = await cookies();
+        await cookieStore.set(name, "", {...options, maxAge: 0});
+      }
+    }
+  });
 
-//   callbackFunction(error);
+  const { data: { user }, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
 
-//   return { data, error };
-// }
+  if (error || !user) {
+    return { ...validation, success: false, message: "Error signing in user", error: { email: [error?.message || "User not found"] } };
+  }
 
-// export async function validateSignUp(prevState: FormStateSignUp, formData: FormData): Promise<FormStateSignUp> {
-//   const results = await signUpUserAction(prevState, formData);
+  if (user.user_metadata.role == "user") {
+    redirect("/userDashboard");
+  } else if (user.user_metadata.role == "admin") {
+    redirect("/adminDashboard");
+  }
 
-//   if (results.success) {
-//     await signUpNewUser(results.fields.email, results.fields.password, results.fields.name, results.fields.role, redirectToDashboard);
-//   }
-
-//   return results;
-// }
-
-// export async function validateSignIn(prevState: FormStateSignIn, formData: FormData): Promise<FormStateSignIn> {
-//   const results = await signInUserAction(prevState, formData);
-
-//   if (results.success) {
-//     await signInUser(results.fields.email, results.fields.password, redirectToDashboard);
-//   }
-
-//   return results;
-// }
+  return validation;
+}
