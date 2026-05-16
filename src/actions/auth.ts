@@ -10,6 +10,7 @@ export async function signUpUserAction(prevState: FormStateSignUp, formData: For
     name: formData.get("name") as string,
     email: formData.get("email") as string,
     password: formData.get("password") as string,
+    role: formData.get("role") as string
   }
 
   const validatedFields = SignUpForm.safeParse(fields);

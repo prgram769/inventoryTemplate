@@ -45,7 +45,7 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims
 
-  if (!user && !request.nextUrl.pathname.startsWith('/signup') && !request.nextUrl.pathname.startsWith('/signin')) {
+  if (!user && !request.nextUrl.pathname.startsWith('/signup') && !request.nextUrl.pathname.startsWith('/signin') && !request.nextUrl.pathname.startsWith('/')) {
     // no user, potentially respond by redirecting the user to the login page
 
     const url = request.nextUrl.clone()
